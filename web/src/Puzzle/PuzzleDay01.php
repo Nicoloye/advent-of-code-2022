@@ -7,6 +7,12 @@ use Entity\PuzzleBase;
 class PuzzleDay01 extends PuzzleBase {
 
   /**
+   * @var array $elf_calories
+   *   The elves calories sums, one elf per key.
+   */
+  private $elf_calories;
+
+  /**
    * @inheritDoc
    */
   public function __construct(bool $load_input = TRUE, string $input_delimiter = "\n") {
@@ -21,8 +27,8 @@ class PuzzleDay01 extends PuzzleBase {
     $this->render($this->helper->printPart('one'));
 
     // Get each elf calories count and return the highest.
-    $elf_calories = $this->processInput();
-    $this->render('Highest elf calories count: ' . $elf_calories[0] . '<br/>');
+    $this->elf_calories = $this->processInput();
+    $this->render('Highest elf calories count: ' . $this->elf_calories[0] . '<br/>');
 
     // Process the second part of the puzzle.
     $this->processPart2();
@@ -35,14 +41,12 @@ class PuzzleDay01 extends PuzzleBase {
     $this->render($this->helper->printPart('two'));
 
     // Get each elf calories count and return the top3 highest.
-    $elf_calories = $this->processInput();
-
     $this->render('Elf calories count top3: <br/><ol>');
-    $this->render('<li>' . $elf_calories[0] . '</li>');
-    $this->render('<li>' . $elf_calories[1] . '</li>');
-    $this->render('<li>' . $elf_calories[2] . '</li>');
+    $this->render('<li>' . $this->elf_calories[0] . '</li>');
+    $this->render('<li>' . $this->elf_calories[1] . '</li>');
+    $this->render('<li>' . $this->elf_calories[2] . '</li>');
     $this->render('</ol>');
-    $this->render('Total: '.($elf_calories[0] + $elf_calories[1] + $elf_calories[2]). '<br/>');
+    $this->render('Total: '.($this->elf_calories[0] + $this->elf_calories[1] + $this->elf_calories[2]). '<br/>');
   }
 
   /**
