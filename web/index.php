@@ -16,9 +16,10 @@ define('PROJECT_ROOT', $project_root);
 require_once('autoload.php');
 
 // Perform puzzles.
-$current_puzzle = 0;
+$puzzle_classes = new FilesystemIterator(__DIR__ . '/src/Puzzle');
+$puzzle_count = iterator_count($puzzle_classes);
 new PuzzleBase(FALSE);
-for($i = $current_puzzle; $i > 0; $i--) {
+for($i = $puzzle_count; $i > 0; $i--) {
   $day = $i < 10 ? '0' . $i : $i;
   $class_name = 'Puzzle\PuzzleDay' . $day;
   switch ($i) {
