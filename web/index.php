@@ -16,8 +16,9 @@ define('PROJECT_ROOT', $project_root);
 require_once('autoload.php');
 
 // Perform puzzles.
+$current_puzzle = 0;
 new PuzzleBase(FALSE);
-for($i = 6; $i > 0; $i--) {
+for($i = $current_puzzle; $i > 0; $i--) {
   $day = $i < 10 ? '0' . $i : $i;
   $class_name = 'Puzzle\PuzzleDay' . $day;
   switch ($i) {
