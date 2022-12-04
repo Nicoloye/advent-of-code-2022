@@ -38,7 +38,7 @@ class PuzzleDay02 extends PuzzleBase {
   private function play($gameType) {
     $score = 0;
     foreach ($this->input as $value) {
-      list($elf, $player) = call_user_func([$this, 'switchToScores' . $gameType], $value);
+      list($elf, $player) = \call_user_func([$this, 'switchToScores' . $gameType], $value);
       $score += $this->solveTurn($elf, $player);
     }
     $this->render('Total score: ' . $score . '<br/>');
@@ -50,10 +50,10 @@ class PuzzleDay02 extends PuzzleBase {
    * @return array
    */
   private function switchToScoresWithClues($value): array {
-    $value = str_replace(['A', 'X'], 1, $value);
-    $value = str_replace(['B', 'Y'], 2, $value);
-    $value = str_replace(['C', 'Z'], 3, $value);
-    return explode(' ', $value);
+    $value = \str_replace(['A', 'X'], 1, $value);
+    $value = \str_replace(['B', 'Y'], 2, $value);
+    $value = \str_replace(['C', 'Z'], 3, $value);
+    return \explode(' ', $value);
   }
 
   /**

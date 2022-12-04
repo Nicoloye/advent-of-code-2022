@@ -62,9 +62,9 @@ class PuzzleDay01 extends PuzzleBase {
         continue;
       }
 
-      array_key_exists($current_elf, $elf_calories) ? $elf_calories[$current_elf] += $value : $elf_calories[$current_elf] = $value;
+      \array_key_exists($current_elf, $elf_calories) ? $elf_calories[$current_elf] += $value : $elf_calories[$current_elf] = $value;
     }
-    rsort($elf_calories);
+    \rsort($elf_calories);
     return $elf_calories;
   }
 
