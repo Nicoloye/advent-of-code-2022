@@ -25,6 +25,7 @@ class PuzzleDay04 extends PuzzleBase {
     $this->render($this->helper->printPart('one'));
 
     $this->getPairs();
+
     $pairs = 0;
     foreach ($this->pairs as $value) {
 
@@ -33,9 +34,28 @@ class PuzzleDay04 extends PuzzleBase {
       }
     }
     $this->render('Overlapping pairs: ' . $pairs . '<br/>');
+
+    // Process the second part of the puzzle.
+    $this->processPart2();
   }
 
   /**
+   * @inheritDoc
+   */
+  public function processPart2() {
+    $this->render($this->helper->printPart('two'));
+
+    $pairs = 0;
+    foreach ($this->pairs as $value) {
+
+      if ($this->overlaps($value[0], $value[1]) || $this->overlaps($value[1], $value[0])) {
+        $pairs++;
+      }
+    }
+    $this->render('Overlapping pairs: ' . $pairs . '<br/>');
+  }
+
+    /**
    * Preprocess the input to separate all elements.
    * @return void
    */
@@ -55,6 +75,19 @@ class PuzzleDay04 extends PuzzleBase {
    */
   private function isContainedIn(array $range1, array $range2): bool {
     if ($range1[0] >= $range2[0] && $range1[1] <= $range2[1]) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
+   * Check if a range overlaps another.
+   * @param array $range1
+   * @param array $range2
+   * @return bool
+   */
+  private function overlaps(array $range1, array $range2): bool {
+    if ($range1[0] <= $range2[1] && $range1[1] >= $range2[0]) {
       return TRUE;
     }
     return FALSE;
