@@ -3,6 +3,8 @@
 namespace Puzzle;
 
 use Entity\PuzzleBase;
+use function array_key_exists;
+use function rsort;
 
 class PuzzleDay01 extends PuzzleBase {
 
@@ -10,7 +12,7 @@ class PuzzleDay01 extends PuzzleBase {
    * @var array $elf_calories
    *   The elves calories sums, one elf per key.
    */
-  private $elf_calories;
+  private array $elf_calories;
 
   /**
    * @inheritDoc
@@ -62,9 +64,9 @@ class PuzzleDay01 extends PuzzleBase {
         continue;
       }
 
-      \array_key_exists($current_elf, $elf_calories) ? $elf_calories[$current_elf] += $value : $elf_calories[$current_elf] = $value;
+      array_key_exists($current_elf, $elf_calories) ? $elf_calories[$current_elf] += $value : $elf_calories[$current_elf] = $value;
     }
-    \rsort($elf_calories);
+    rsort($elf_calories);
     return $elf_calories;
   }
 

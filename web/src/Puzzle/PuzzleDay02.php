@@ -3,6 +3,9 @@
 namespace Puzzle;
 
 use Entity\PuzzleBase;
+use function call_user_func;
+use function explode;
+use function str_replace;
 
 class PuzzleDay02 extends PuzzleBase {
 
@@ -35,10 +38,15 @@ class PuzzleDay02 extends PuzzleBase {
     $this->play('ByGuessing');
   }
 
-  private function play($gameType) {
+  /**
+   * Play the rock paper scissors game.
+   * @param string $gameType
+   * @return void
+   */
+  private function play(string $gameType): void {
     $score = 0;
     foreach ($this->input as $value) {
-      list($elf, $player) = \call_user_func([$this, 'switchToScores' . $gameType], $value);
+      list($elf, $player) = call_user_func([$this, 'switchToScores' . $gameType], $value);
       $score += $this->solveTurn($elf, $player);
     }
     $this->render('Total score: ' . $score . '<br/>');
@@ -49,11 +57,11 @@ class PuzzleDay02 extends PuzzleBase {
    * @param string $value
    * @return array
    */
-  private function switchToScoresWithClues($value): array {
-    $value = \str_replace(['A', 'X'], 1, $value);
-    $value = \str_replace(['B', 'Y'], 2, $value);
-    $value = \str_replace(['C', 'Z'], 3, $value);
-    return \explode(' ', $value);
+  private function switchToScoresWithClues(string $value): array {
+    $value = str_replace(['A', 'X'], 1, $value);
+    $value = str_replace(['B', 'Y'], 2, $value);
+    $value = str_replace(['C', 'Z'], 3, $value);
+    return explode(' ', $value);
   }
 
   /**
@@ -61,30 +69,23 @@ class PuzzleDay02 extends PuzzleBase {
    * @param string $value
    * @return array
    */
-  private function switchToScoresByGuessing($value): array {
+  private function switchToScoresByGuessing(string $value): array {
     list($elf, $player) = $this->switchToScoresWithClues($value);
 
-    switch ($player) {
-      // We intend to perform a draw.
-      case 2 :
-        return [$elf, $elf];
-      // We intend to lose.
-      case 1 :
-        return [$elf, (($elf + 1) % 3) + 1];
-      // We intend to win.
-      case 3:
-        return [$elf, ($elf % 3) + 1];
-    }
+    return match ($player) {
+      2 => [$elf, $elf],                  // We intend to perform a draw.
+      1 => [$elf, (($elf + 1) % 3) + 1],  // We intend to lose.
+      default => [$elf, ($elf % 3) + 1],  // We intend to win.
+    };
   }
 
   /**
    * Solve this turn and return the score for the player.
-   * @param $score
-   * @param $elf
-   * @param $player
+   * @param int $elf
+   * @param int $player
    * @return int
    */
-  private function solveTurn($elf, $player): int {
+  private function solveTurn(int $elf, int $player): int {
     // In any case we add the current figure score.
     $score = $player;
 
