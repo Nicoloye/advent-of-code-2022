@@ -141,9 +141,10 @@ class PuzzleDay05 extends PuzzleBase {
 
   /**
    * Perform the
+   * @param bool $craneModel9001
    * @return void
    */
-  private function moveCrates($craneModel9001 = FALSE):void {
+  private function moveCrates(bool $craneModel9001 = FALSE):void {
     foreach($this->craneMoves as $move) {
       $cranes = $move[0];
       $source = $move[1] - 1;
