@@ -111,7 +111,7 @@ class PuzzleDay05 extends PuzzleBase {
     // Reverse the crane order to have the top crane as the last item.
     $this->startingStack = array_map(fn($value): array => array_reverse($value), $this->startingStack);
     // Remove empty crane placeholder #.
-    $this->startingStack = array_map(fn($value): array => array_filter($value, function( $value ) { return ($value && $value != '#'); }), $this->startingStack);
+    $this->startingStack = array_map(fn($value): array => array_filter($value, fn( $value ): bool => ($value && $value != '#') ), $this->startingStack);
 
     // Create a separate stack to apply crane moves on it and preserve the initial state.
     $this->stacks = $this->startingStack;
