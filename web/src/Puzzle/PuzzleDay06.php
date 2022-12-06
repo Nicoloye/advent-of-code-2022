@@ -1,8 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Puzzle;
 
 use Entity\PuzzleBase;
+use function array_flip;
+use function array_shift;
+use function array_slice;
+use function count;
+use function str_split;
 
 
 class PuzzleDay06 extends PuzzleBase {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Puzzle;
 
 use Entity\PuzzleBase;
@@ -146,9 +148,9 @@ class PuzzleDay05 extends PuzzleBase {
    */
   private function moveCrates(bool $craneModel9001 = FALSE):void {
     foreach($this->craneMoves as $move) {
-      $cranes = $move[0];
-      $source = $move[1] - 1;
-      $destination = $move[2] - 1;
+      $cranes = (int) $move[0];
+      $source = (int) $move[1] - 1;
+      $destination = (int) $move[2] - 1;
       $sourceSize = count($this->stacks[$source]);
 
       // Put the cranes on the destination stack.
