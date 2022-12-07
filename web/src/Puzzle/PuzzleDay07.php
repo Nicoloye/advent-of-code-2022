@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Puzzle;
 
 use Entity\PuzzleBase;
-use function array_flip;
-use function array_shift;
-use function array_slice;
+use function array_key_exists;
+use function array_pop;
 use function count;
-use function str_split;
-
+use function preg_match_all;
+use function sort;
 
 class PuzzleDay07 extends PuzzleBase {
 
@@ -44,6 +43,11 @@ class PuzzleDay07 extends PuzzleBase {
   public function processPart2() {
     $this->render($this->helper->printPart('two'));
 
+    $unusedSpace = 70000000 - $this->sizes['//'];
+    $requiredSpace = 30000000 - $unusedSpace;
+    $folders = $this->getFoldersWithLimit($requiredSpace, FALSE);
+    sort($folders);
+    $this->render('Total folder size with ' . $requiredSpace . ' as folder limit to increase ' . $unusedSpace .' of unused space: ' . $folders[0] . '<br/>');
   }
 
   /**
@@ -81,18 +85,25 @@ class PuzzleDay07 extends PuzzleBase {
   }
 
   /**
-   * Calculate the sum of all the folder with a size of at most maxFolderSize.
+   * Retrieve all folders with a size of at most maxFolderSize.
    * @param int $maxFolderSize
-   * @return int
+   * @return array
    */
-  private function getFolderAtMost(int $maxFolderSize):int {
-    $total = 0;
+  private function getFoldersWithLimit(int $maxFolderSize, bool $foldersUnderLimit = TRUE):array {
+    $folders = [];
     foreach($this->sizes as $size) {
-      if ($size <= $maxFolderSize) {
-        $total += $size;
+      if ($foldersUnderLimit) {
+        if ($size <= $maxFolderSize) {
+          $folders[] = $size;
+        }
+      }
+      else {
+        if ($size >= $maxFolderSize) {
+          $folders[] = $size;
+        }
       }
     }
-    return $total;
+    return $folders;
   }
 
   /**
@@ -107,7 +118,7 @@ class PuzzleDay07 extends PuzzleBase {
       $this->setSizes($value);
 
     }
-    $total = $this->getFolderAtMost($maxFolderSize);
+    $total = array_sum($this->getFoldersWithLimit($maxFolderSize));
     $this->render('Total folder size with ' . $maxFolderSize . ' as folder limit: ' . $total . '<br/>');
   }
 }
